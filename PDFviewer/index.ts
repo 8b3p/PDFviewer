@@ -31,7 +31,7 @@ export class PDFviewer
     container: HTMLDivElement
   ): void {
     context.mode.trackContainerResize(true);
-    console.log("version 1");
+    console.log("version 2");
     this.container = container;
     this.clientWidth = this.container.clientWidth;
     this.clientHeight = this.container.clientHeight;
@@ -54,7 +54,6 @@ export class PDFviewer
     console.log(this.container.clientWidth);
     try {
       ReactDOM.render(React.createElement<props>(App, props), this.container);
-      console.log("test");
     } catch (e: any) {
       console.error(e);
     }
