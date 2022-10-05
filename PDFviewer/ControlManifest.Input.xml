@@ -2,7 +2,7 @@
 <manifest>
     <control namespace="PDFviewer"
              constructor="PDFviewer"
-             version="0.0.6"
+             version="0.0.7"
              display-name-key="PDFviewer"
              description-key="PDFviewer description"
              control-type="standard">

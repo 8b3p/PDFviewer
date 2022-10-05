@@ -51,7 +51,6 @@ export class PDFviewer
       clientWidth: this.container.clientWidth,
       clientHeight: this.clientHeight,
     };
-    console.log(this.container.clientWidth);
     try {
       ReactDOM.render(React.createElement<props>(App, props), this.container);
     } catch (e: any) {
