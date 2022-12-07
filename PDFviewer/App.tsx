@@ -12,22 +12,19 @@ export interface props {
 }
 
 const App = (props: props) => {
+  const { context, clientWidth } = props;
   const { getAttachments, file, isLoading, isThereData, isError } =
     useAttachments();
 
   useEffect(() => {
     let reference: EntityReference = new EntityReference(
-      (props.context as any).page.entityTypeName,
-      (props.context as any).page.entityId
+      (context as any).page.entityTypeName,
+      (context as any).page.entityId
     );
-    if ((props.context as any).page.entityId != null) {
-      getAttachments(reference, props.context);
+    if ((context as any).page.entityId != null) {
+      getAttachments(reference, context);
     }
-  }, [props.context]);
-
-  const onError = (e: Error) => {
-    console.error(e);
-  };
+  }, [context]);
 
   return (
     <div className='container'>
@@ -41,11 +38,14 @@ const App = (props: props) => {
         <embed
           src={requestUrlPdf(file.fileContent)}
           type={file.mimeType}
-          width={props.clientWidth}
-          height={props.clientWidth * 2.6}
+          width={clientWidth}
+          height={clientWidth * 1.3}
+          onError={e => {
+            console.log(e);
+          }}
         />
       ) : file.mimeType === "image/png" || "image/jpeg" || "image/jpg" ? (
-        <img src={requestUrlPdf(file.fileContent)} width={props.clientWidth} />
+        <img src={requestUrlPdf(file.fileContent)} width={clientWidth} />
       ) : (
         <>This file type is not supported</>
       )}

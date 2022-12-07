@@ -8,6 +8,8 @@ export class PDFviewer
 {
   private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
   private notifyOutputChanged: () => void;
+  private context: ComponentFramework.Context<IInputs>;
+
   container: HTMLDivElement;
   clientWidth: number;
   clientHeight: number;
@@ -23,6 +25,7 @@ export class PDFviewer
    * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
    * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
    * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
+   * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
    */
   public init(
     context: ComponentFramework.Context<IInputs>,
@@ -31,7 +34,8 @@ export class PDFviewer
     container: HTMLDivElement
   ): void {
     context.mode.trackContainerResize(true);
-    console.log("version 2");
+    console.log("v1.0.4 (2022-12-7)");
+    this.context = context;
     this.container = container;
     this.clientWidth = this.container.clientWidth;
     this.clientHeight = this.container.clientHeight;

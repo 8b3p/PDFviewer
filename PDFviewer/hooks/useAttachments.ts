@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { EntityReference, FileToDownload, Attachment } from "../classes";
 import { IInputs } from "../generated/ManifestTypes";
+import { GetFileExtension, TrimFileExtension } from "../utils/fileExtension";
 
 export default function useAttachments(): {
   getAttachments: (
@@ -37,13 +38,14 @@ export default function useAttachments(): {
         "annotation",
         query
       );
+      console.dir(result);
       let items: Attachment[] = [];
       for (let i = 0; i < result.entities.length; i++) {
         let ent = result.entities[i];
         let item = new Attachment(
-          new EntityReference("annotation", ent["annotationid"].toString()),
-          ent["filename"].split(".")[0],
-          ent["filename"].split(".")[1].toLowerCase(),
+          new EntityReference("annotation", ent.annotationid.toString()),
+          TrimFileExtension(ent.filename),
+          GetFileExtension(ent.filename),
           false
         );
         if (
@@ -54,11 +56,11 @@ export default function useAttachments(): {
         ) {
           items.push(item);
         }
-        //* do something with the items, add to state or something !
       }
       // fileMetaData = items[items.length - 1];
       fileMetaData = items[0];
-
+      console.dir(fileMetaData);
+      console.dir(items);
       try {
         if (fileMetaData === undefined) {
           setisLoading(false);
@@ -73,11 +75,11 @@ export default function useAttachments(): {
         let file: FileToDownload = new FileToDownload();
         file.fileContent =
           fileMetaData.attachmentId.typeName == "annotation"
-            ? result["documentbody"]
-            : result["body"];
-        file.fileName = result["filename"];
-        file.fileSize = result["filesize"];
-        file.mimeType = result["mimetype"];
+            ? result.documentbody
+            : result.body;
+        file.fileName = result.filename;
+        file.fileSize = result.filesize;
+        file.mimeType = result.mimetype;
         setFile(file);
         setisLoading(false);
         setIsThereData(true);
